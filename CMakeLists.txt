@@ -1,0 +1,21 @@
+cmake_minimum_required(VERSION 3.1)
+project(LSM LANGUAGES CXX)
+
+set(TARGET LSM CMAKE_CXX_STANDARD 17)
+if(MSVC)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
+endif(MSVC)
+
+set (LSM_INCLUDES "${CMAKE_CURRENT_SOURCE_DIR}/include/")
+set (THIRDPARTY_INCLUDES "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/")
+set (TEST_FOLDER "${CMAKE_CURRENT_SOURCE_DIR}/tests/")
+
+include_directories(${LSM_INCLUDES} ${THIRDPARTY_INCLUDES} ${TEST_FOLDER})
+
+set(TESTS_SOURCES ${TEST_FOLDER})
+
+file(GLOB SOURCES
+		${TESTS_SOURCES}/*.cpp
+	)
+
+add_executable(LSM ${SOURCES})

@@ -1,0 +1,71 @@
+#include "lsm_set.hpp"
+#include <Catch2/catch.hpp>
+
+#include "lsm_multiple_tests.hpp"
+
+namespace tests
+{
+	using my_set = lsm::set<int>;
+
+	template <>
+	struct convert_random_to_value_type<my_set>
+	{
+		typename my_set::value_type operator()(const randomly_generated_type& pair)
+		{
+			return pair.first;
+		}
+	};
+
+	template <>
+	struct compare_iterator_to_random<my_set>
+	{
+		bool operator()(my_set::iterator it, const randomly_generated_type& pair)
+		{
+			return *it == pair.first;
+		}
+
+		bool operator()(my_set::const_iterator it, const randomly_generated_type& pair)
+		{
+			return *it == pair.first;
+		}
+	};
+}
+
+TEST_CASE("LSM set", "[LSM][SET]")
+{
+	SECTION("Default constructed LSM")
+	{
+		using lsm_type = lsm::set<int>;
+
+		tests::ensure_default_properties<lsm_type>();
+		tests::ensure_default_accessor<lsm_type>();
+	}
+
+	SECTION("Default constructions and insertions without duplicates")
+	{
+		using lsm_type = lsm::set<int>;
+
+		tests::ensure_default_insertion_without_duplicates<lsm_type>();
+	}
+
+	SECTION("Default constructions and find without duplicates")
+	{
+		using lsm_type = lsm::set<int>;
+
+		tests::ensure_default_find_without_duplicates<lsm_type>();
+	}
+
+	SECTION("Default constructions and lower bound without duplicates")
+	{
+		using lsm_type = lsm::set<int>;
+
+		tests::ensure_default_lower_bound_without_duplicates<lsm_type>();
+	}
+
+	SECTION("Default constructions and upper bound without duplicates")
+	{
+		using lsm_type = lsm::set<int>;
+
+		tests::ensure_default_upper_bound_without_duplicates<lsm_type>();
+	}
+}
